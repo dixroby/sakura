@@ -11,7 +11,14 @@ namespace sakura
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["usu"]==null)
+            {
+                Response.Redirect("inicio.aspx?error=1");
+            }
+            else
+            {
+                lblUsuario.Text = Session["usu"].ToString();
+            }
         }
     }
 }
