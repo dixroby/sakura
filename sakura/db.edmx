@@ -1,0 +1,562 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="konohaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TDESTINO">
+          <Key>
+            <PropertyRef Name="CodDestino" />
+          </Key>
+          <Property Name="CodDestino" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Destino" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="DetalleDestino" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TDETALLEVENTA">
+          <Key>
+            <PropertyRef Name="IDVenta" />
+            <PropertyRef Name="IDPaqueteProgramado" />
+          </Key>
+          <Property Name="IDVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDPaqueteProgramado" Type="int" Nullable="false" />
+          <Property Name="FechaActas" Type="date" />
+          <Property Name="Precio" Type="money" />
+          <Property Name="observacion" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="THOTEL">
+          <Key>
+            <PropertyRef Name="CodHotel" />
+          </Key>
+          <Property Name="CodHotel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodDestino" Type="int" Nullable="false" />
+          <Property Name="NomHotel" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DireccionHotel" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="precioHotel" Type="money" Nullable="false" />
+          <Property Name="TelefonoHotel" Type="char" MaxLength="10" />
+          <Property Name="DetalleHotel" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TPAQUETEPROGRAMADO">
+          <Key>
+            <PropertyRef Name="IDPaqueteProgramado" />
+          </Key>
+          <Property Name="IDPaqueteProgramado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodPaqueteTuristico" Type="int" Nullable="false" />
+          <Property Name="CodHotel" Type="int" Nullable="false" />
+          <Property Name="CodDestino" Type="int" Nullable="false" />
+          <Property Name="Observacion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TPAQUETETURISTICO">
+          <Key>
+            <PropertyRef Name="CodPaqueteTuristico" />
+          </Key>
+          <Property Name="CodPaqueteTuristico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomPaqueteTuristico" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TUSUARIO">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="NombreUsuario" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ApellidoPaternoUsuario" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ApellidoMaternoUsuario" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DNIUsuario" Type="numeric" Precision="8" Scale="0" />
+          <Property Name="FechaNacimiento" Type="date" />
+          <Property Name="DireccionUsuario" Type="varchar" MaxLength="45" />
+          <Property Name="Sexo" Type="char" MaxLength="1" />
+          <Property Name="TelefonoUsuario" Type="char" MaxLength="10" />
+          <Property Name="clave" Type="varchar" MaxLength="15" />
+          <Property Name="Edad" Type="int" />
+        </EntityType>
+        <EntityType Name="TVENTAPAQUETETURISTICO">
+          <Key>
+            <PropertyRef Name="IDVenta" />
+          </Key>
+          <Property Name="IDVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CodHotel" Type="int" Nullable="false" />
+          <Property Name="FechaVenta" Type="date" Nullable="false" />
+          <Property Name="Observacion" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK__TDETALLEV__IDPaq__32AB8735">
+          <End Role="TPAQUETEPROGRAMADO" Type="Self.TPAQUETEPROGRAMADO" Multiplicity="1" />
+          <End Role="TDETALLEVENTA" Type="Self.TDETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TPAQUETEPROGRAMADO">
+              <PropertyRef Name="IDPaqueteProgramado" />
+            </Principal>
+            <Dependent Role="TDETALLEVENTA">
+              <PropertyRef Name="IDPaqueteProgramado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TDETALLEV__IDVen__2BFE89A6">
+          <End Role="TVENTAPAQUETETURISTICO" Type="Self.TVENTAPAQUETETURISTICO" Multiplicity="1" />
+          <End Role="TDETALLEVENTA" Type="Self.TDETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVENTAPAQUETETURISTICO">
+              <PropertyRef Name="IDVenta" />
+            </Principal>
+            <Dependent Role="TDETALLEVENTA">
+              <PropertyRef Name="IDVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__THOTEL__CodDesti__2645B050">
+          <End Role="TDESTINO" Type="Self.TDESTINO" Multiplicity="1" />
+          <End Role="THOTEL" Type="Self.THOTEL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TDESTINO">
+              <PropertyRef Name="CodDestino" />
+            </Principal>
+            <Dependent Role="THOTEL">
+              <PropertyRef Name="CodDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TPAQUETEP__CodDe__3493CFA7">
+          <End Role="TDESTINO" Type="Self.TDESTINO" Multiplicity="1" />
+          <End Role="TPAQUETEPROGRAMADO" Type="Self.TPAQUETEPROGRAMADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TDESTINO">
+              <PropertyRef Name="CodDestino" />
+            </Principal>
+            <Dependent Role="TPAQUETEPROGRAMADO">
+              <PropertyRef Name="CodDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TPAQUETEP__CodHo__339FAB6E">
+          <End Role="THOTEL" Type="Self.THOTEL" Multiplicity="1" />
+          <End Role="TPAQUETEPROGRAMADO" Type="Self.TPAQUETEPROGRAMADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THOTEL">
+              <PropertyRef Name="CodHotel" />
+            </Principal>
+            <Dependent Role="TPAQUETEPROGRAMADO">
+              <PropertyRef Name="CodHotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TPAQUETEP__CodPa__3587F3E0">
+          <End Role="TPAQUETETURISTICO" Type="Self.TPAQUETETURISTICO" Multiplicity="1" />
+          <End Role="TPAQUETEPROGRAMADO" Type="Self.TPAQUETEPROGRAMADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TPAQUETETURISTICO">
+              <PropertyRef Name="CodPaqueteTuristico" />
+            </Principal>
+            <Dependent Role="TPAQUETEPROGRAMADO">
+              <PropertyRef Name="CodPaqueteTuristico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TVENTAPAQ__CodHo__2CF2ADDF">
+          <End Role="THOTEL" Type="Self.THOTEL" Multiplicity="1" />
+          <End Role="TVENTAPAQUETETURISTICO" Type="Self.TVENTAPAQUETETURISTICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THOTEL">
+              <PropertyRef Name="CodHotel" />
+            </Principal>
+            <Dependent Role="TVENTAPAQUETETURISTICO">
+              <PropertyRef Name="CodHotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TVENTAPAQ__Email__2B0A656D">
+          <End Role="TUSUARIO" Type="Self.TUSUARIO" Multiplicity="1" />
+          <End Role="TVENTAPAQUETETURISTICO" Type="Self.TVENTAPAQUETETURISTICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUSUARIO">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="TVENTAPAQUETETURISTICO">
+              <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="konohaModelStoreContainer">
+          <EntitySet Name="TDESTINO" EntityType="Self.TDESTINO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TDETALLEVENTA" EntityType="Self.TDETALLEVENTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="THOTEL" EntityType="Self.THOTEL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TPAQUETEPROGRAMADO" EntityType="Self.TPAQUETEPROGRAMADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TPAQUETETURISTICO" EntityType="Self.TPAQUETETURISTICO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TUSUARIO" EntityType="Self.TUSUARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TVENTAPAQUETETURISTICO" EntityType="Self.TVENTAPAQUETETURISTICO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__TDETALLEV__IDPaq__32AB8735" Association="Self.FK__TDETALLEV__IDPaq__32AB8735">
+            <End Role="TPAQUETEPROGRAMADO" EntitySet="TPAQUETEPROGRAMADO" />
+            <End Role="TDETALLEVENTA" EntitySet="TDETALLEVENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TDETALLEV__IDVen__2BFE89A6" Association="Self.FK__TDETALLEV__IDVen__2BFE89A6">
+            <End Role="TVENTAPAQUETETURISTICO" EntitySet="TVENTAPAQUETETURISTICO" />
+            <End Role="TDETALLEVENTA" EntitySet="TDETALLEVENTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__THOTEL__CodDesti__2645B050" Association="Self.FK__THOTEL__CodDesti__2645B050">
+            <End Role="TDESTINO" EntitySet="TDESTINO" />
+            <End Role="THOTEL" EntitySet="THOTEL" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TPAQUETEP__CodDe__3493CFA7" Association="Self.FK__TPAQUETEP__CodDe__3493CFA7">
+            <End Role="TDESTINO" EntitySet="TDESTINO" />
+            <End Role="TPAQUETEPROGRAMADO" EntitySet="TPAQUETEPROGRAMADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TPAQUETEP__CodHo__339FAB6E" Association="Self.FK__TPAQUETEP__CodHo__339FAB6E">
+            <End Role="THOTEL" EntitySet="THOTEL" />
+            <End Role="TPAQUETEPROGRAMADO" EntitySet="TPAQUETEPROGRAMADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TPAQUETEP__CodPa__3587F3E0" Association="Self.FK__TPAQUETEP__CodPa__3587F3E0">
+            <End Role="TPAQUETETURISTICO" EntitySet="TPAQUETETURISTICO" />
+            <End Role="TPAQUETEPROGRAMADO" EntitySet="TPAQUETEPROGRAMADO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TVENTAPAQ__CodHo__2CF2ADDF" Association="Self.FK__TVENTAPAQ__CodHo__2CF2ADDF">
+            <End Role="THOTEL" EntitySet="THOTEL" />
+            <End Role="TVENTAPAQUETETURISTICO" EntitySet="TVENTAPAQUETETURISTICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TVENTAPAQ__Email__2B0A656D" Association="Self.FK__TVENTAPAQ__Email__2B0A656D">
+            <End Role="TUSUARIO" EntitySet="TUSUARIO" />
+            <End Role="TVENTAPAQUETETURISTICO" EntitySet="TVENTAPAQUETETURISTICO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="konohaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TDESTINO">
+          <Key>
+            <PropertyRef Name="CodDestino" />
+          </Key>
+          <Property Name="CodDestino" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Destino" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DetalleDestino" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="THOTELs" Relationship="Self.FK__THOTEL__CodDesti__2645B050" FromRole="TDESTINO" ToRole="THOTEL" />
+          <NavigationProperty Name="TPAQUETEPROGRAMADOes" Relationship="Self.FK__TPAQUETEP__CodDe__3493CFA7" FromRole="TDESTINO" ToRole="TPAQUETEPROGRAMADO" />
+        </EntityType>
+        <EntityType Name="TDETALLEVENTA">
+          <Key>
+            <PropertyRef Name="IDVenta" />
+            <PropertyRef Name="IDPaqueteProgramado" />
+          </Key>
+          <Property Name="IDVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDPaqueteProgramado" Type="Int32" Nullable="false" />
+          <Property Name="FechaActas" Type="DateTime" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="observacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TPAQUETEPROGRAMADO" Relationship="Self.FK__TDETALLEV__IDPaq__32AB8735" FromRole="TDETALLEVENTA" ToRole="TPAQUETEPROGRAMADO" />
+          <NavigationProperty Name="TVENTAPAQUETETURISTICO" Relationship="Self.FK__TDETALLEV__IDVen__2BFE89A6" FromRole="TDETALLEVENTA" ToRole="TVENTAPAQUETETURISTICO" />
+        </EntityType>
+        <EntityType Name="THOTEL">
+          <Key>
+            <PropertyRef Name="CodHotel" />
+          </Key>
+          <Property Name="CodHotel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodDestino" Type="Int32" Nullable="false" />
+          <Property Name="NomHotel" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DireccionHotel" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="precioHotel" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="TelefonoHotel" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="DetalleHotel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TDESTINO" Relationship="Self.FK__THOTEL__CodDesti__2645B050" FromRole="THOTEL" ToRole="TDESTINO" />
+          <NavigationProperty Name="TPAQUETEPROGRAMADOes" Relationship="Self.FK__TPAQUETEP__CodHo__339FAB6E" FromRole="THOTEL" ToRole="TPAQUETEPROGRAMADO" />
+          <NavigationProperty Name="TVENTAPAQUETETURISTICOes" Relationship="Self.FK__TVENTAPAQ__CodHo__2CF2ADDF" FromRole="THOTEL" ToRole="TVENTAPAQUETETURISTICO" />
+        </EntityType>
+        <EntityType Name="TPAQUETEPROGRAMADO">
+          <Key>
+            <PropertyRef Name="IDPaqueteProgramado" />
+          </Key>
+          <Property Name="IDPaqueteProgramado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodPaqueteTuristico" Type="Int32" Nullable="false" />
+          <Property Name="CodHotel" Type="Int32" Nullable="false" />
+          <Property Name="CodDestino" Type="Int32" Nullable="false" />
+          <Property Name="Observacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TDESTINO" Relationship="Self.FK__TPAQUETEP__CodDe__3493CFA7" FromRole="TPAQUETEPROGRAMADO" ToRole="TDESTINO" />
+          <NavigationProperty Name="TDETALLEVENTAs" Relationship="Self.FK__TDETALLEV__IDPaq__32AB8735" FromRole="TPAQUETEPROGRAMADO" ToRole="TDETALLEVENTA" />
+          <NavigationProperty Name="THOTEL" Relationship="Self.FK__TPAQUETEP__CodHo__339FAB6E" FromRole="TPAQUETEPROGRAMADO" ToRole="THOTEL" />
+          <NavigationProperty Name="TPAQUETETURISTICO" Relationship="Self.FK__TPAQUETEP__CodPa__3587F3E0" FromRole="TPAQUETEPROGRAMADO" ToRole="TPAQUETETURISTICO" />
+        </EntityType>
+        <EntityType Name="TPAQUETETURISTICO">
+          <Key>
+            <PropertyRef Name="CodPaqueteTuristico" />
+          </Key>
+          <Property Name="CodPaqueteTuristico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomPaqueteTuristico" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TPAQUETEPROGRAMADOes" Relationship="Self.FK__TPAQUETEP__CodPa__3587F3E0" FromRole="TPAQUETETURISTICO" ToRole="TPAQUETEPROGRAMADO" />
+        </EntityType>
+        <EntityType Name="TUSUARIO">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoPaternoUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoMaternoUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DNIUsuario" Type="Decimal" Precision="8" Scale="0" />
+          <Property Name="FechaNacimiento" Type="DateTime" />
+          <Property Name="DireccionUsuario" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TelefonoUsuario" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="clave" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Edad" Type="Int32" />
+          <NavigationProperty Name="TVENTAPAQUETETURISTICOes" Relationship="Self.FK__TVENTAPAQ__Email__2B0A656D" FromRole="TUSUARIO" ToRole="TVENTAPAQUETETURISTICO" />
+        </EntityType>
+        <EntityType Name="TVENTAPAQUETETURISTICO">
+          <Key>
+            <PropertyRef Name="IDVenta" />
+          </Key>
+          <Property Name="IDVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodHotel" Type="Int32" Nullable="false" />
+          <Property Name="FechaVenta" Type="DateTime" Nullable="false" />
+          <Property Name="Observacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TDETALLEVENTAs" Relationship="Self.FK__TDETALLEV__IDVen__2BFE89A6" FromRole="TVENTAPAQUETETURISTICO" ToRole="TDETALLEVENTA" />
+          <NavigationProperty Name="THOTEL" Relationship="Self.FK__TVENTAPAQ__CodHo__2CF2ADDF" FromRole="TVENTAPAQUETETURISTICO" ToRole="THOTEL" />
+          <NavigationProperty Name="TUSUARIO" Relationship="Self.FK__TVENTAPAQ__Email__2B0A656D" FromRole="TVENTAPAQUETETURISTICO" ToRole="TUSUARIO" />
+        </EntityType>
+        <Association Name="FK__THOTEL__CodDesti__2645B050">
+          <End Role="TDESTINO" Type="Self.TDESTINO" Multiplicity="1" />
+          <End Role="THOTEL" Type="Self.THOTEL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TDESTINO">
+              <PropertyRef Name="CodDestino" />
+            </Principal>
+            <Dependent Role="THOTEL">
+              <PropertyRef Name="CodDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TPAQUETEP__CodDe__3493CFA7">
+          <End Role="TDESTINO" Type="Self.TDESTINO" Multiplicity="1" />
+          <End Role="TPAQUETEPROGRAMADO" Type="Self.TPAQUETEPROGRAMADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TDESTINO">
+              <PropertyRef Name="CodDestino" />
+            </Principal>
+            <Dependent Role="TPAQUETEPROGRAMADO">
+              <PropertyRef Name="CodDestino" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TDETALLEV__IDPaq__32AB8735">
+          <End Role="TPAQUETEPROGRAMADO" Type="Self.TPAQUETEPROGRAMADO" Multiplicity="1" />
+          <End Role="TDETALLEVENTA" Type="Self.TDETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TPAQUETEPROGRAMADO">
+              <PropertyRef Name="IDPaqueteProgramado" />
+            </Principal>
+            <Dependent Role="TDETALLEVENTA">
+              <PropertyRef Name="IDPaqueteProgramado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TDETALLEV__IDVen__2BFE89A6">
+          <End Role="TVENTAPAQUETETURISTICO" Type="Self.TVENTAPAQUETETURISTICO" Multiplicity="1" />
+          <End Role="TDETALLEVENTA" Type="Self.TDETALLEVENTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TVENTAPAQUETETURISTICO">
+              <PropertyRef Name="IDVenta" />
+            </Principal>
+            <Dependent Role="TDETALLEVENTA">
+              <PropertyRef Name="IDVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TPAQUETEP__CodHo__339FAB6E">
+          <End Role="THOTEL" Type="Self.THOTEL" Multiplicity="1" />
+          <End Role="TPAQUETEPROGRAMADO" Type="Self.TPAQUETEPROGRAMADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THOTEL">
+              <PropertyRef Name="CodHotel" />
+            </Principal>
+            <Dependent Role="TPAQUETEPROGRAMADO">
+              <PropertyRef Name="CodHotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TVENTAPAQ__CodHo__2CF2ADDF">
+          <End Role="THOTEL" Type="Self.THOTEL" Multiplicity="1" />
+          <End Role="TVENTAPAQUETETURISTICO" Type="Self.TVENTAPAQUETETURISTICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="THOTEL">
+              <PropertyRef Name="CodHotel" />
+            </Principal>
+            <Dependent Role="TVENTAPAQUETETURISTICO">
+              <PropertyRef Name="CodHotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TPAQUETEP__CodPa__3587F3E0">
+          <End Role="TPAQUETETURISTICO" Type="Self.TPAQUETETURISTICO" Multiplicity="1" />
+          <End Role="TPAQUETEPROGRAMADO" Type="Self.TPAQUETEPROGRAMADO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TPAQUETETURISTICO">
+              <PropertyRef Name="CodPaqueteTuristico" />
+            </Principal>
+            <Dependent Role="TPAQUETEPROGRAMADO">
+              <PropertyRef Name="CodPaqueteTuristico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TVENTAPAQ__Email__2B0A656D">
+          <End Role="TUSUARIO" Type="Self.TUSUARIO" Multiplicity="1" />
+          <End Role="TVENTAPAQUETETURISTICO" Type="Self.TVENTAPAQUETETURISTICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUSUARIO">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="TVENTAPAQUETETURISTICO">
+              <PropertyRef Name="Email" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TDESTINOes" EntityType="Self.TDESTINO" />
+          <EntitySet Name="TDETALLEVENTAs" EntityType="Self.TDETALLEVENTA" />
+          <EntitySet Name="THOTELs" EntityType="Self.THOTEL" />
+          <EntitySet Name="TPAQUETEPROGRAMADOes" EntityType="Self.TPAQUETEPROGRAMADO" />
+          <EntitySet Name="TPAQUETETURISTICOes" EntityType="Self.TPAQUETETURISTICO" />
+          <EntitySet Name="TUSUARIOs" EntityType="Self.TUSUARIO" />
+          <EntitySet Name="TVENTAPAQUETETURISTICOes" EntityType="Self.TVENTAPAQUETETURISTICO" />
+          <AssociationSet Name="FK__THOTEL__CodDesti__2645B050" Association="Self.FK__THOTEL__CodDesti__2645B050">
+            <End Role="TDESTINO" EntitySet="TDESTINOes" />
+            <End Role="THOTEL" EntitySet="THOTELs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TPAQUETEP__CodDe__3493CFA7" Association="Self.FK__TPAQUETEP__CodDe__3493CFA7">
+            <End Role="TDESTINO" EntitySet="TDESTINOes" />
+            <End Role="TPAQUETEPROGRAMADO" EntitySet="TPAQUETEPROGRAMADOes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TDETALLEV__IDPaq__32AB8735" Association="Self.FK__TDETALLEV__IDPaq__32AB8735">
+            <End Role="TPAQUETEPROGRAMADO" EntitySet="TPAQUETEPROGRAMADOes" />
+            <End Role="TDETALLEVENTA" EntitySet="TDETALLEVENTAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TDETALLEV__IDVen__2BFE89A6" Association="Self.FK__TDETALLEV__IDVen__2BFE89A6">
+            <End Role="TVENTAPAQUETETURISTICO" EntitySet="TVENTAPAQUETETURISTICOes" />
+            <End Role="TDETALLEVENTA" EntitySet="TDETALLEVENTAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TPAQUETEP__CodHo__339FAB6E" Association="Self.FK__TPAQUETEP__CodHo__339FAB6E">
+            <End Role="THOTEL" EntitySet="THOTELs" />
+            <End Role="TPAQUETEPROGRAMADO" EntitySet="TPAQUETEPROGRAMADOes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TVENTAPAQ__CodHo__2CF2ADDF" Association="Self.FK__TVENTAPAQ__CodHo__2CF2ADDF">
+            <End Role="THOTEL" EntitySet="THOTELs" />
+            <End Role="TVENTAPAQUETETURISTICO" EntitySet="TVENTAPAQUETETURISTICOes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TPAQUETEP__CodPa__3587F3E0" Association="Self.FK__TPAQUETEP__CodPa__3587F3E0">
+            <End Role="TPAQUETETURISTICO" EntitySet="TPAQUETETURISTICOes" />
+            <End Role="TPAQUETEPROGRAMADO" EntitySet="TPAQUETEPROGRAMADOes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TVENTAPAQ__Email__2B0A656D" Association="Self.FK__TVENTAPAQ__Email__2B0A656D">
+            <End Role="TUSUARIO" EntitySet="TUSUARIOs" />
+            <End Role="TVENTAPAQUETETURISTICO" EntitySet="TVENTAPAQUETETURISTICOes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="konohaModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="TDESTINOes">
+            <EntityTypeMapping TypeName="konohaModel.TDESTINO">
+              <MappingFragment StoreEntitySet="TDESTINO">
+                <ScalarProperty Name="CodDestino" ColumnName="CodDestino" />
+                <ScalarProperty Name="Destino" ColumnName="Destino" />
+                <ScalarProperty Name="DetalleDestino" ColumnName="DetalleDestino" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TDETALLEVENTAs">
+            <EntityTypeMapping TypeName="konohaModel.TDETALLEVENTA">
+              <MappingFragment StoreEntitySet="TDETALLEVENTA">
+                <ScalarProperty Name="IDVenta" ColumnName="IDVenta" />
+                <ScalarProperty Name="IDPaqueteProgramado" ColumnName="IDPaqueteProgramado" />
+                <ScalarProperty Name="FechaActas" ColumnName="FechaActas" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="observacion" ColumnName="observacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="THOTELs">
+            <EntityTypeMapping TypeName="konohaModel.THOTEL">
+              <MappingFragment StoreEntitySet="THOTEL">
+                <ScalarProperty Name="CodHotel" ColumnName="CodHotel" />
+                <ScalarProperty Name="CodDestino" ColumnName="CodDestino" />
+                <ScalarProperty Name="NomHotel" ColumnName="NomHotel" />
+                <ScalarProperty Name="DireccionHotel" ColumnName="DireccionHotel" />
+                <ScalarProperty Name="precioHotel" ColumnName="precioHotel" />
+                <ScalarProperty Name="TelefonoHotel" ColumnName="TelefonoHotel" />
+                <ScalarProperty Name="DetalleHotel" ColumnName="DetalleHotel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TPAQUETEPROGRAMADOes">
+            <EntityTypeMapping TypeName="konohaModel.TPAQUETEPROGRAMADO">
+              <MappingFragment StoreEntitySet="TPAQUETEPROGRAMADO">
+                <ScalarProperty Name="IDPaqueteProgramado" ColumnName="IDPaqueteProgramado" />
+                <ScalarProperty Name="CodPaqueteTuristico" ColumnName="CodPaqueteTuristico" />
+                <ScalarProperty Name="CodHotel" ColumnName="CodHotel" />
+                <ScalarProperty Name="CodDestino" ColumnName="CodDestino" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TPAQUETETURISTICOes">
+            <EntityTypeMapping TypeName="konohaModel.TPAQUETETURISTICO">
+              <MappingFragment StoreEntitySet="TPAQUETETURISTICO">
+                <ScalarProperty Name="CodPaqueteTuristico" ColumnName="CodPaqueteTuristico" />
+                <ScalarProperty Name="NomPaqueteTuristico" ColumnName="NomPaqueteTuristico" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TUSUARIOs">
+            <EntityTypeMapping TypeName="konohaModel.TUSUARIO">
+              <MappingFragment StoreEntitySet="TUSUARIO">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+                <ScalarProperty Name="ApellidoPaternoUsuario" ColumnName="ApellidoPaternoUsuario" />
+                <ScalarProperty Name="ApellidoMaternoUsuario" ColumnName="ApellidoMaternoUsuario" />
+                <ScalarProperty Name="DNIUsuario" ColumnName="DNIUsuario" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="DireccionUsuario" ColumnName="DireccionUsuario" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="TelefonoUsuario" ColumnName="TelefonoUsuario" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TVENTAPAQUETETURISTICOes">
+            <EntityTypeMapping TypeName="konohaModel.TVENTAPAQUETETURISTICO">
+              <MappingFragment StoreEntitySet="TVENTAPAQUETETURISTICO">
+                <ScalarProperty Name="IDVenta" ColumnName="IDVenta" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CodHotel" ColumnName="CodHotel" />
+                <ScalarProperty Name="FechaVenta" ColumnName="FechaVenta" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

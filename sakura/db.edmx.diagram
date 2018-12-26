@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8f7e5646121a412ab44bb7450db5393d" Name="Diagram1" ZoomLevel="31">
+        <EntityTypeShape EntityType="konohaModel.TDESTINO" Width="1.5" PointX="1.375" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="konohaModel.TDETALLEVENTA" Width="1.5" PointX="7.625" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="konohaModel.THOTEL" Width="1.5" PointX="3.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="konohaModel.TPAQUETEPROGRAMADO" Width="1.5" PointX="1.625" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="konohaModel.TPAQUETETURISTICO" Width="1.5" PointX="5.625" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="konohaModel.TUSUARIO" Width="1.5" PointX="12" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="konohaModel.TVENTAPAQUETETURISTICO" Width="1.5" PointX="9.5" PointY="4.125" IsExpanded="true" />
+        <AssociationConnector Association="konohaModel.FK__THOTEL__CodDesti__2645B050" ManuallyRouted="false" />
+        <AssociationConnector Association="konohaModel.FK__TPAQUETEP__CodDe__3493CFA7" ManuallyRouted="false" />
+        <AssociationConnector Association="konohaModel.FK__TDETALLEV__IDPaq__32AB8735" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="konohaModel.FK__TDETALLEV__IDVen__2BFE89A6" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="konohaModel.FK__TPAQUETEP__CodHo__339FAB6E" ManuallyRouted="false" />
+        <AssociationConnector Association="konohaModel.FK__TVENTAPAQ__CodHo__2CF2ADDF" ManuallyRouted="false" />
+        <AssociationConnector Association="konohaModel.FK__TPAQUETEP__CodPa__3587F3E0" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="konohaModel.FK__TVENTAPAQ__Email__2B0A656D" ManuallyRouted="false" >
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
